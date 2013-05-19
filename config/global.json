@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "Hit": {
+            "applicationId": "Gjy5f0o2limWmCwEZXBwYi3EUULEVfZWZo6OZ2GQ", 
+            "masterKey": "qPjAZ9xgZPUw7RgC8bhTh6dJ67X04chFe8ohzXKC"
+        }, 
+        "_default": {
+            "link": "Hit"
+        }
+    },
+    "global": {
+        "parseVersion": "1.2.7"
+    }
+}
