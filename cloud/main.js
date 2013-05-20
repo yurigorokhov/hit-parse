@@ -26,6 +26,9 @@ Parse.Cloud.beforeSave('Venue', function(request, response) {
     });
 
     // Add created by
+    if(!request.user) {
+        response.error('You are not logged in!');
+    }
     request.object.set('createdby', request.user);
 
     // Set permissions
