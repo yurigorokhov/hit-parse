@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Venues</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="../assets/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <!-- Create Venue -->
+    <div id="create-venue-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Create Venue</h3>
+      </div>
+      <div class="modal-body">
+        <input id="venue-name" type="text" placeholder="Name" />
+        <input id="venue-phone" type="text" placeholder="Phone" />
+        <input id="venue-address" type="text" placeholder="Street Number & Street" />
+        <input id="venue-city" type="text" placeholder="City" value="San Diego"></input>
+        <input id="venue-state" type="text" placeholder="State" value="California" />
+        <input id="venue-zip" type="text" placeholder="Zipcode"></input>
+        <input id="hours-monday" type="text" placeholder="Hours on Monday" />
+        <input id="hours-tuesday" type="text" placeholder="Hours on Tuesday" />
+        <input id="hours-wednesday" type="text" placeholder="Hours on Wednesday" />
+        <input id="hours-thursday" type="text" placeholder="Hours on Thursday" />
+        <input id="hours-friday" type="text" placeholder="Hours on Friday" />
+        <input id="hours-saturday" type="text" placeholder="Hours on Saturday" />
+        <input id="hours-sunday" type="text" placeholder="Hours on Sunday" />
+        <div id="create-venue-error" class="alert hide"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button id="create-venue" class="btn btn-primary">Create Venue</button>
+      </div>
+    </div>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">HIT</a>
+          <div class="nav-collapse collapse">
+
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a data-toggle="modal" href="#create-venue-modal">Create a venue</a></li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="nav pull-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Yuri <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a id="logout" href="#">Log out</a></li>
+                </ul>
+              </li>
+
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>HIT</h1>
+        <p>This site is currently under construction.</p>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; HIT 2013</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    
+    <script src="../js/lib/fullmoon.min.js"></script>
+    <script src="../js/lib/bootstrap.min.js"></script>
+    <script src="../js/lib/jquery.filedrop.js"></script>
+    <script src="venues/venues.js"></script>
+
+  </body>
+</html>
