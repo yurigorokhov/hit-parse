@@ -10,6 +10,7 @@
 
     <!-- Le styles -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="venues/venues.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -52,6 +53,12 @@
         <input id="hours-friday" type="text" placeholder="Hours on Friday" />
         <input id="hours-saturday" type="text" placeholder="Hours on Saturday" />
         <input id="hours-sunday" type="text" placeholder="Hours on Sunday" />
+
+        <!-- File upload -->
+        <div id="filedrag" class="well well-large">
+          <p>Drag and drop images</p>
+        </div>
+
         <div id="create-venue-error" class="alert hide"></div>
       </div>
       <div class="modal-footer">
@@ -98,11 +105,16 @@
 
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
-        <h1>HIT</h1>
+        <h1>Venues</h1>
         <p>This site is currently under construction.</p>
       </div>
 
       <hr>
+      <form class="form-inline">
+        <label for="venue-search-input">Search</label>
+        <input id="venue-search-input" type="text" class="input-large search-query" />
+      </form>
+      <ul id="venue-list"></ul>
 
       <footer>
         <p>&copy; HIT 2013</p>

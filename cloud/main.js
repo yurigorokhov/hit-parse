@@ -19,7 +19,8 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 
 //--- Venue ---
 Parse.Cloud.beforeSave('Venue', function(request, response) {
-    allowedFields = ['name', 'address', 'phone', 'hours', 'address'];
+    var mandatoryFields = ['name', 'address', 'phone', 'hours', 'address'];
+    var allowedFields = _(mandatoryFields).union(['pictures']);
     _(request.object.attributes).each(function(val, key) {
         if(!_(allowedFields).contains(key)) {
             request.object.unset(key);
@@ -27,7 +28,7 @@ Parse.Cloud.beforeSave('Venue', function(request, response) {
     });
 
     // Verify Fields
-    util.verifyFields(allowedFields, request.object, function(result) {
+    util.verifyFields(mandatoryFields, request.object, function(result) {
 
         if(!result.success) {
             response.error(result.message);
