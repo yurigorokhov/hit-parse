@@ -8,7 +8,9 @@
         _timeout: null,
         _venueListTemplate: _.template('<li>' +
             '<div class="well well-large">' +
-                '<img class="venue-list-img img-polaroid" src="<%= _(venue.pictures).first() %>"></img>' +
+                '<% if(venue.pictures && !_(venue.pictures).isEmpty()) { %>' +
+                    '<img class="venue-list-img img-polaroid" src="<%= _(venue.pictures).first() %>"></img>' +
+                '<% } %>' +
                 '<p class="help-inline venue-list-name"><%= venue.name %></p>' +
             '</div></li>'),
 
@@ -45,6 +47,10 @@
                 filedrag.style.display = "block";
             }
 
+            $('#create-venue-modal').on('hide', function() {
+                self._files = [];
+            });
+
             $("#create-venue").on('click', function(e) {
                 e.preventDefault();
                 Hit.Venue.create({
@@ -58,13 +64,13 @@
                     },
                     hours: 'bla'
                 }).done(function(venue) {
-                    _(self._files).each(function(f) {
-                        venue.addPicture(f).done(function(response) {
-                        }).fail(function() {
+                    venue.addPictures(Hit.Views.Venues._files).done(function(v) {
+                        
+                    }).fail(function() {
 
-                        });
+                    }).always(function() {
+                        $('#create-venue-modal').modal('hide');
                     });
-                    $('#create-venue-modal').modal('hide');
                 }).fail(function(error) {
                     $('#create-venue-error').removeClass('hide').text(error.message);
                 });
@@ -78,9 +84,6 @@
             window.location.href = '/../../index.html';
         }
         $('#logged-in-as').text(user.displayname);
-    });
-
-    $('#create-venue-modal').on('show', function() {
         Hit.Views.Venues.initVenueCreate();
     });
 

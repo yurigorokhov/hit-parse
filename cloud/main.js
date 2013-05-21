@@ -29,7 +29,6 @@ Parse.Cloud.beforeSave('Venue', function(request, response) {
 
     // Verify Fields
     util.verifyFields(mandatoryFields, request.object, function(result) {
-
         if(!result.success) {
             response.error(result.message);
             return;
@@ -41,29 +40,26 @@ Parse.Cloud.beforeSave('Venue', function(request, response) {
             return;
         }
         var address = request.object.get('address');
+        var location = request.object.get('location');
 
         // Fetch GPS location
-        Parse.Cloud.httpRequest({
-            url: 'http://maps.googleapis.com/maps/api/geocode/json',
-            params: {
-                address: address.address + '+' + address.city + '+' + address.state + '+' + address.zip,
-                sensor: 'true'
-            },
-            success: function(locationResult) {
-                var res = JSON.parse(locationResult.text);
-                var location = _(res.results).first().geometry.location;
-                request.object.set('location', new Parse.GeoPoint({ longitude: location.lng, latitude: location.lat }));
-                request.object.set('createdby', request.user);
-
-                // Set permissions
-                var acl = new Parse.ACL(request.user);
-                acl.setPublicWriteAccess(false);
-                request.object.setACL(acl);
-                response.success();
-            },
-            error: function(error) {
-                response.error('Failed to fetch location for address: ' + error.status);
-            }
-        })
+        //TODO: makes it impossible to change location
+        if(address && !location) {
+            util.getGpsLocationFromAddress(address, function(res) {
+                if(res.success) {        
+                    var acl = new Parse.ACL(request.user);
+                    acl.setPublicWriteAccess(false);
+                    acl.setPublicReadAccess(true);
+                    request.object.set('location', res.location);   
+                    request.object.setACL(acl);
+                    request.object.set('createdby', request.user);
+                    response.success();
+                    return;
+                } else {
+                    response.error(res.message);
+                    return;
+                }
+            });
+        }
     });
 });
