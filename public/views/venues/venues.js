@@ -12,8 +12,39 @@
                     '<img class="venue-list-img img-polaroid" src="<%= _(venue.pictures).first() %>"></img>' +
                 '<% } %>' +
                 '<p class="help-inline venue-list-name"><%= venue.name %></p>' +
+                '<button venueid="<%= venue._parseVenue.id %>" class="btn btn-primary view-venue-button">View</button>' +
             '</div></li>'),
 
+        _venueViewTemplate: _.template(
+                '<div class="address">' +
+                    '<h5>Address:</h5>' +
+                    '<p><%= venue.address.address %></p>' +
+                    '<p><%= venue.address.city %>, <%= venue.address.state %>, <%= venue.address.zip %></p>' +
+                '</div>' +
+                '<div class="phone">' +
+                    '<h5>Phone:</h5>' +
+                    '<p><%= venue.phone %></p>' +
+                '</div>'
+        ),
+
+        _imageCarouselTemplate: _.template(
+
+            '<div id="<%= id %>" class="carousel slide">' +
+                '<ol class="carousel-indicators">' +
+                    '<% _(pictures).each(function(picture, i) { %>' +
+                        '<li data-target="#carousel-item<%= i %>" data-slide-to="<%= i %>"></li>' +
+                    '<% }); %>' +
+                '</ol>' +
+                '<div class="carousel-inner">' +
+                    '<% _(pictures).each(function(picture, i) { %>' +
+                        '<div class="<%= (i == 0) ? "item active" : "item" %>"><img class="carousel-image" src="<%= picture %>"></div>' +
+                    '<% }); %>' +
+                '</div>' +
+                '<a class="left carousel-control" href="#<%= id %>" data-slide="prev">‹</a>' +
+                '<a class="right carousel-control" href="#<%= id %>" data-slide="next">›</a>' +
+              '</div>'
+
+        ),
         delayedSearch: function(ms, action) {
             clearTimeout(this._timeout);
             this._timeout = setTimeout(action, ms);
@@ -102,6 +133,18 @@
                 });
             });
         }
+    });
+
+    $(document).on('click', '.view-venue-button', function(e) {
+        e.preventDefault();
+        Hit.Venue.getById($(this).attr('venueId')).done(function(venue) {
+            $('#view-venue-label').text(venue.name);
+            var carousel = Hit.Views.Venues._imageCarouselTemplate( { id: 'view-venue-carousel', pictures: venue.pictures } )
+            $('#view-venue-body').html(carousel + Hit.Views.Venues._venueViewTemplate( { venue: venue } ));
+            $('#view-venue-modal').modal();
+        }).fail(function() {
+            // TODO
+        });
     });
 
     $('#logout').on('click', function() {
