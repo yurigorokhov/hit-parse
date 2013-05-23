@@ -37,7 +37,7 @@
                 '</ol>' +
                 '<div class="carousel-inner">' +
                     '<% _(pictures).each(function(picture, i) { %>' +
-                        '<div class="<%= (i == 0) ? "item active" : "item" %>"><img class="carousel-image" src="<%= picture %>"></div>' +
+                        '<div class="<%= (i == 0) ? "item active" : "item" %>"><img class="carousel-image" <%= (i == 0) ? "src" : "srcimg" %>="<%= picture %>"></img></div>' +
                     '<% }); %>' +
                 '</div>' +
                 '<a class="left carousel-control" href="#<%= id %>" data-slide="prev">‹</a>' +
@@ -77,10 +77,6 @@
                 filedrag.addEventListener("drop", this._fileSelectHandler, false);
                 filedrag.style.display = "block";
             }
-
-            $('#create-venue-modal').on('hide', function() {
-                self._files = [];
-            });
 
             $("#create-venue").on('click', function(e) {
                 e.preventDefault();
@@ -145,6 +141,21 @@
         }).fail(function() {
             // TODO
         });
+    });
+
+    $(document).on('slide', '#view-venue-carousel', function() {
+
+        // Load the next 2 images
+        $('#view-venue-carousel .item.active').nextAll('.item').slice(0,2).each(function() {
+            var image = $(this).find('.carousel-image');
+            if($(this).attr('src') === undefined) {
+                image.attr('src', image.attr('srcimg'));
+            }
+        });
+    });
+
+    $('#create-venue-modal').on('hide', function() {
+        Hit.Views.Venues._files = [];
     });
 
     $('#logout').on('click', function() {
