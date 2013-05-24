@@ -8,11 +8,8 @@
         _timeout: null,
         _venueListTemplate: _.template('<li>' +
             '<div class="well well-large">' +
-                '<% if(venue.pictures && !_(venue.pictures).isEmpty()) { %>' +
-                    '<img class="venue-list-img img-polaroid" src="<%= _(venue.pictures).first() %>"></img>' +
-                '<% } %>' +
-                '<p class="help-inline venue-list-name"><%= venue.name %></p>' +
-                '<button venueid="<%= venue._parseVenue.id %>" class="btn btn-primary view-venue-button">View</button>' +
+                '<p class="help-inline venue-list-name"><%= data.venue.name %></p>' +
+                '<button venueid="<%= data.venue._parseVenue.id %>" class="btn btn-primary view-venue-button">View</button>' +
             '</div></li>'),
 
         _venueViewTemplate: _.template(
@@ -37,7 +34,12 @@
                 '</ol>' +
                 '<div class="carousel-inner">' +
                     '<% _(pictures).each(function(picture, i) { %>' +
-                        '<div class="<%= (i == 0) ? "item active" : "item" %>"><img class="carousel-image" <%= (i == 0) ? "src" : "srcimg" %>="<%= picture %>"></img></div>' +
+                        '<div class="<%= (i == 0) ? "item active" : "item" %>">' +
+                            '<img class="carousel-image" <%= (i == 0) ? "src" : "srcimg" %>="<%= picture.get("url") %>"></img>' +
+                            '<div class="carousel-caption">' +
+                                '<h4><%= new Date(picture.createdAt).toDateString() %></h4>' +
+                            '</div>' +
+                        '</div>' +
                     '<% }); %>' +
                 '</div>' +
                 '<a class="left carousel-control" href="#<%= id %>" data-slide="prev">‹</a>' +
@@ -122,7 +124,7 @@
                 Hit.Views.Venues._currentSearch = val;
                 Hit.Venue.searchByName(val).done(function(venues) {
                     _(venues).each(function(v) {
-                        $('#venue-list').append(Hit.Views.Venues._venueListTemplate({ venue: v }));
+                        $('#venue-list').append(Hit.Views.Venues._venueListTemplate({ data: { venue: v } }));
                     });
                 }).fail(function() {
                     //todo
@@ -133,9 +135,12 @@
 
     $(document).on('click', '.view-venue-button', function(e) {
         e.preventDefault();
-        Hit.Venue.getById($(this).attr('venueId')).done(function(venue) {
+        var id = $(this).attr('venueId');
+        var getVenue = Hit.Venue.getById(id);
+        var getPics = Hit.Venue.getPicturesById(id);
+        $.when(getVenue, getPics).done(function(venue, pictures) {
             $('#view-venue-label').text(venue.name);
-            var carousel = Hit.Views.Venues._imageCarouselTemplate( { id: 'view-venue-carousel', pictures: venue.pictures } )
+            var carousel = Hit.Views.Venues._imageCarouselTemplate( { id: 'view-venue-carousel', pictures: pictures } )
             $('#view-venue-body').html(carousel + Hit.Views.Venues._venueViewTemplate( { venue: venue } ));
             $('#view-venue-modal').modal();
         }).fail(function() {
