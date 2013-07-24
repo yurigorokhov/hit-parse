@@ -1,0 +1,8 @@
+<form novalidate name="loginForm" class="form-signin">
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <input name="email" type="email" class="input-block-level" ng-model="user.email" placeholder="Email address" required>
+    <span class="error" ng-show="loginForm.email.$error.email">Please enter a valid email.</span>
+    <input type="password" class="input-block-level" ng-model="user.password" placeholder="Password" required>
+    <button class="btn btn-large btn-primary" type="submit" ng-click="login(user)">Sign in</button>
+    <span class="error" ng-show="failed">Login failed. Please try again.</span>
+</form>
