@@ -23,6 +23,12 @@
 
     // Venue searchCtrl
     var venueSearchCtrl = function($rootScope, $routeParams) {
+
+        // login check
+        if(!Hit.User.getCurrent()) {
+            window.location.href = '/#/login';
+        }
+
         var scope = $rootScope;
         scope.venues = [];
         scope.searching = false;
@@ -57,6 +63,12 @@
     };
 
     var viewVenueCtrl = function($rootScope, $routeParams) {
+
+        // login check
+        if(!Hit.User.getCurrent()) {
+            window.location.href = '/#/login';
+        }
+
         var scope = $rootScope;
         var venueid = $routeParams.venueid;
         scope.error = null;
