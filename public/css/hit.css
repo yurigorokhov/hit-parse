@@ -16,7 +16,53 @@ body {
     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
     box-shadow: 0 1px 2px rgba(0,0,0,.05);
 }
-.form-signin .error {
-    font-size: 10px;
+.warn {
+    color: orange;
+}
+.error {
+    font-size: 14px;
     color: red;
+}
+#venue-list li {
+    list-style: none;    
+}
+#venue-list .venue-list-img {
+    width: 128px;
+}
+#venue-list .venue-list-name {
+    font-size: 25px;
+}
+#venue-list .view-venue-button {
+    float: right;
+}
+#view-venue-modal .venue-view-img {
+    width: 256px;
+    display: block-inline;
+}
+#view-venue-modal .address,
+#view-venue-modal .phone {
+    display: inline-block;
+    padding: 10px;
+    line-height: 10px;
+}
+#view-venue-modal .carousel-image {
+    height: 256px;
+}
+#filedrag
+{
+    font-weight: bold;
+    text-align: center;
+    padding: 1em 0;
+    margin: 1em 0;
+    color: #555;
+    border: 2px dashed #555;
+    border-radius: 7px;
+    cursor: default;
+}
+#filedrag.hover
+{
+    color: #f00;
+    border-color: #f00;
+    border-style: solid;
+    box-shadow: inset 0 3px 4px #888;
 }

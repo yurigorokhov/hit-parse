@@ -1,14 +1,4 @@
-<div id="view-venue-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="view-venue-label" aria-hidden="true">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="view-venue-label"></h3>
-      </div>
-      <div class="modal-body" id="view-venue-body">
-      </div>
-      <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-      </div>
-    </div>
+
 
     <!-- Create Venue -->
     <div id="create-venue-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -68,12 +58,12 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Yuri <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a id="logout" href="#">Log out</a></li>
+                  <li><a href="#" ng-click="logout()">Log out</a></li>
                 </ul>
               </li>
 
             </ul>
-          </div><!--/.nav-collapse -->
+          </div>
         </div>
       </div>
     </div>
@@ -87,13 +77,21 @@
       </div>
 
       <hr>
-      <form class="form-inline">
+      <form name="venueSearchForm" class="form-inline">
         <i class="icon-search"></i>
         <label for="venue-search-input">Search</label>
-        <input id="venue-search-input" type="text" class="input-large search-query" />
+        <input ng-model="searchtext" ng-change="search(searchtext)" type="text" class="input-large search-query">
+        <span class="warn" ng-show="!searching && searchtext.length > 0 && venues.length == 0">No results were found.</span>
+        <span class="error" ng-show="error">There was an error performing the search, please refresh the page and try again.</span>
       </form>
-      <ul id="venue-list"></ul>
-
+      <ul id="venue-list">
+        <li ng-repeat="venue in venues">
+            <div class="well well-large">
+                <p class="help-inline venue-list-name">{{ venue.name }}</p>
+                <a href="/#/venues/{{ venue._parseVenue.id }}" class="btn btn-primary view-venue-button">View</a>
+            </div>
+        </li>
+      </ul>
       <footer>
         <p>&copy; HIT 2013</p>
       </footer>
