@@ -1,0 +1,19 @@
+<div class="form-signin">
+    <form novalidate name="registerForm" class="form-signin">
+        <h2 class="form-signin-heading">Register</h2>
+        <input name="email" type="email" class="input-block-level" ng-model="user.email" placeholder="Email address" required>
+        <span class="error" ng-show="registerForm.email.$error.email">Please enter a valid email.</span>
+
+        <input type="password" class="input-block-level" ng-model="user.password" placeholder="Password" required>
+        <span class="error" ng-show="user.password.length < 4">Password should be at least 4 characters long.</span>
+
+        <input type="password" class="input-block-level" ng-model="user.passwordverify" placeholder="Verify Password" required>
+        <span class="error" ng-show="user.passwordverify.length > 0 && user.password != user.passwordverify">Passwords do not match.</span>
+
+        <button class="btn btn-large btn-primary" type="submit" ng-click="register(user)">Register</button>
+        <a class="register-link" href="/#/login">Login</a>      
+    </form>
+    <div align=center>
+            <span class="error" ng-show="failed != null"> {{ failed }} </span>
+    </div> 
+</div>

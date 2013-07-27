@@ -1,4 +1,12 @@
 <div>
+    <ng-include src="'partials/navbar.html'"></ng-include>
     <span class="error" ng-show="error != null">{{error}}</span>
-    {{ venue }}
+    <div class="hero-unit">
+        <h1>{{ venue.name }}</h1>
+    </div>
+    <address>
+        {{ venue.address.address }}<br>
+        {{ venue.address.city }}, {{ venue.address.state }} {{ venue.address.zip }}<br>
+    <abbr title="Phone">Phone:</abbr> {{ venue.phone }}
+    </address>
 </div>
