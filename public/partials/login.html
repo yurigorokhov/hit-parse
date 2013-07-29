@@ -1,10 +1,14 @@
 <div class="form-signin">
     <form novalidate name="loginForm" class="form-signin">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input name="email" type="email" class="input-block-level" ng-model="user.email" placeholder="Email address" required>
+        <h2 class="form-signin-heading">Sign in</h2>
+        <div class="form-group">
+            <input name="email" type="email" class="form-control" ng-model="user.email" placeholder="Email address" required>
+        </div>
         <span class="error" ng-show="loginForm.email.$error.email">Please enter a valid email.</span>
-        <input type="password" class="input-block-level" ng-model="user.password" placeholder="Password" required>
-        <button class="btn btn-large btn-primary" type="submit" ng-click="login(user)">Sign in</button>
+        <div class="form-group">
+            <input type="password" class="form-control" ng-model="user.password" placeholder="Password" required>
+        </div>
+        <button class="btn btn-primary" type="submit" ng-click="login(user)">Sign in</button>
         <a class="register-link" href="/#/register">Register</a>
     </form>
     <div align=center>

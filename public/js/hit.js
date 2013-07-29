@@ -105,7 +105,7 @@
         });
     };
 
-    angular.module('hit', []).
+    var app = angular.module('hit', ['$strap.directives']).
         config(['$routeProvider', function($routeProvider) {
             $routeProvider.
             when('/login', {templateUrl: 'partials/login.html', controller: loginCtrl}).
@@ -114,5 +114,10 @@
             when('/venues/:venueid', {templateUrl: 'partials/viewvenue.html', controller: viewVenueCtrl}).
             otherwise({redirectTo: '/login'});
     }]);
+    app.value('$strapConfig', {
+        datepicker: {
+            startView: 2
+        }
+    });
 
 })(jQuery);
