@@ -53,6 +53,19 @@
         getCurrent: function() {
             var u = Parse.User.current();
             return u ? new Hit.User(u) : null;
+        },
+
+        requestPasswordReset: function(email) {
+            var def = $.Deferred();
+            Parse.User.requestPasswordReset(email, {
+                success: function() {
+                    def.resolve();
+                },
+                error: function(error) {
+                    def.reject(error.message);
+                }
+            });
+            return def.promise();
         }
     });
 

@@ -33,19 +33,14 @@
         $scope.failed = null;
         $scope.success = false;
         $scope.resetPassword = function(user) {
-
-            // TODO: move to fullmoon
             $scope.failed = null;
             $scope.success = false;
-            Parse.User.requestPasswordReset(user.email, {
-                success: function() {
-                    $scope.success = true;
-                    $scope.$apply();
-                },
-                error: function(error) {
-                    $scope.failed = error.message;
-                    $scope.$apply();
-                }
+            Hit.User.requestPasswordReset(user.email).done(function() {
+                $scope.success = true;
+                $scope.$apply();
+            }).fail(function(error) {
+                $scope.failed = error;
+                $scope.$apply();
             });
         };
     };
