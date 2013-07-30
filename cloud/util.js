@@ -1,5 +1,3 @@
-var _ = require('cloud/underscore-min.js');
-
 module.exports = {
     
     verifyFields: function(fields, object, callback) {
