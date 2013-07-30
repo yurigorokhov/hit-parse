@@ -4,6 +4,8 @@
 
 var _ = require('cloud/underscore-min.js');
 var util = require('cloud/util.js');
+var Mailgun = require('mailgun');
+Mailgun.initialize('hit.mailgun.org', 'key-2p7zg4ed2q-bm43vtg8fnrbkl-uuxjn3');
 
 //--- User ---
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
@@ -15,7 +17,6 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
     });
     response.success();
 });
-
 
 //--- Venue ---
 Parse.Cloud.beforeSave('Venue', function(request, response) {

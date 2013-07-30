@@ -20,6 +20,11 @@ body {
     float:right;
     margin-top: 10px;
 }
+.form-signin .forgot-password-link {
+    font-size: 12px;
+    margin-top: 18px;
+    display: block;
+}
 .warn {
     color: orange;
 }

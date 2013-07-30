@@ -23,6 +23,33 @@
         };
     };
 
+    // Reset password
+    var resetPasswordCtrl = function($scope, $routeParams) {
+        var currentUser = Hit.User.getCurrent();
+        if(currentUser) {
+            window.location.href = '/#/venues';
+            return;
+        }
+        $scope.failed = null;
+        $scope.success = false;
+        $scope.resetPassword = function(user) {
+
+            // TODO: move to fullmoon
+            $scope.failed = null;
+            $scope.success = false;
+            Parse.User.requestPasswordReset(user.email, {
+                success: function() {
+                    $scope.success = true;
+                    $scope.$apply();
+                },
+                error: function(error) {
+                    $scope.failed = error.message;
+                    $scope.$apply();
+                }
+            });
+        };
+    };
+
     // Register
     var registerCtrl = function($scope, $routeParams) {
         var currentUser = Hit.User.getCurrent();
@@ -110,6 +137,7 @@
             $routeProvider.
             when('/login', {templateUrl: 'partials/login.html', controller: loginCtrl}).
             when('/register', {templateUrl: 'partials/register.html', controller: registerCtrl}).
+            when('/resetpassword', {templateUrl: 'partials/resetpassword.html', controller: resetPasswordCtrl}).
             when('/venues', {templateUrl: 'partials/venues.html', controller: venueSearchCtrl}).
             when('/venues/:venueid', {templateUrl: 'partials/viewvenue.html', controller: viewVenueCtrl}).
             otherwise({redirectTo: '/login'});
