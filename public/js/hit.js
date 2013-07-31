@@ -82,7 +82,6 @@
             scope.searching = true;
             scope.error = false;
             scope.venues = [];
-            scope.$apply();
             clearTimeout(timeout);
             timeout = setTimeout(function() {
                 if(!_(searchtext).isEmpty()) {
@@ -127,6 +126,16 @@
         });
     };
 
+    var venueCreateCtrl = function($rootScope, $routeParams) {
+
+        // login check
+        if(!Hit.User.getCurrent()) {
+            window.location.href = '/#/login';
+        }
+        var scope = $rootScope;
+        scope.user = Hit.User.getCurrent();
+    }
+
     var app = angular.module('hit', ['$strap.directives']).
         config(['$routeProvider', function($routeProvider) {
             $routeProvider.
@@ -134,6 +143,7 @@
             when('/register', {templateUrl: 'partials/register.html', controller: registerCtrl}).
             when('/resetpassword', {templateUrl: 'partials/resetpassword.html', controller: resetPasswordCtrl}).
             when('/venues', {templateUrl: 'partials/venues.html', controller: venueSearchCtrl}).
+            when('/venues/create', {templateUrl: 'partials/createvenue.html', controller: venueCreateCtrl}).
             when('/venues/:venueid', {templateUrl: 'partials/viewvenue.html', controller: viewVenueCtrl}).
             otherwise({redirectTo: '/login'});
     }]);

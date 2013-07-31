@@ -41,9 +41,6 @@ body {
 #venue-list .venue-list-name {
     font-size: 25px;
 }
-#venue-list .view-venue-button {
-    float: right;
-}
 #view-venue-modal .venue-view-img {
     width: 256px;
     display: block-inline;
