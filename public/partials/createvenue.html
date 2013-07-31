@@ -2,32 +2,34 @@
 <div class="container">
     <div class="hero-unit">
         <h1>Create a Venue</h1>
+        <div ng-show="failed != null" class="alert alert-danger">{{ failed }}</div>
+        <div ng-show="success" class="alert alert-success">Your venue was created successfully.</div>
     </div>
-    <form>
+    <form ng-show="!success">
         <div class="form-group">
-            <input class="form-control" type="text" placeholder="Name">
+            <input ng-model="venue.name" class="form-control" type="text" placeholder="Name">
         </div>
         <div class="form-group">
-            <input class="form-control" type="text" placeholder="Phone">
+            <input ng-model="venue.phone" class="form-control" type="text" placeholder="Phone">
         </div>
         <div class="form-group">
-            <input class="form-control" type="text" placeholder="Street Number & Street">
+            <input ng-model="venue.address.address" class="form-control" type="text" placeholder="Street Number & Street">
         </div>
         <div class="form-group">
-            <input class="form-control" type="text" placeholder="City" value="San Diego">
+            <input ng-model="venue.address.city" class="form-control" type="text" placeholder="City" value="San Diego">
         </div>
         <div class="form-group">
-            <input class="form-control" type="text" placeholder="State" value="California">
+            <input ng-model="venue.address.state" class="form-control" type="text" placeholder="State" value="California">
         </div>
         <div class="form-group">
-            <input class="form-control" type="text" placeholder="Zipcode">
+            <input ng-model="venue.zip" class="form-control" type="text" placeholder="Zipcode">
         </div>
 
         <!-- File upload -->
         <div id="filedrag" class="well well-large">
           <p>Drag and drop images</p>
         </div>
-        <button id="create-venue" class="btn btn-primary">Create Venue</button>
+        <button class="btn btn-primary" ng-click="create(venue)">Create Venue</button>
         <a class="btn btn-default" href="/#/venues"> Back</a>
     </form>
 </div>

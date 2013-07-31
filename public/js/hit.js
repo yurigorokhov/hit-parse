@@ -129,11 +129,27 @@
     var venueCreateCtrl = function($rootScope, $routeParams) {
 
         // login check
-        if(!Hit.User.getCurrent()) {
+        var currentUser = Hit.User.getCurrent();
+        if(!currentUser) {
             window.location.href = '/#/login';
         }
+
+        //TODO: check role
         var scope = $rootScope;
-        scope.user = Hit.User.getCurrent();
+        scope.user = currentUser;
+        scope.failed = null;
+        scope.success = false;
+        scope.create = function(venue) {
+            scope.failed = null;
+            scope.success = false;
+            Hit.Venue.create(venue).done(function() {
+                scope.success = true;
+                scope.$apply();
+            }).fail(function(error) {
+                scope.failed = error || 'There was an error creating the venue.'
+                scope.$apply();
+            });
+        };
     }
 
     var app = angular.module('hit', ['$strap.directives']).

@@ -2,7 +2,7 @@
 // Use Parse.Cloud.define to define as many cloud functions as you want.
 // For example:
 
-_ = require('underscore');
+var _ = require('underscore');
 var util = require('cloud/util.js');
 var Mailgun = require('mailgun');
 Mailgun.initialize('hit.mailgun.org', 'key-2p7zg4ed2q-bm43vtg8fnrbkl-uuxjn3');

@@ -33,7 +33,7 @@
                     def.resolve(new Hit.Venue(venue));
                 },
                 error: function(venue, error) {
-                    def.reject(error);
+                    def.reject(error.message);
                 }
             });
             return def.promise();
