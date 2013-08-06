@@ -24,11 +24,53 @@
         <div class="form-group">
             <input ng-model="venue.zip" class="form-control" type="text" placeholder="Zipcode">
         </div>
-
+        <div class="form-group">
+            <label for="venue.hours.monday.from" class="control-label">Monday</label>
+            <input id="venue.hours.monday.from" type="time" ng-model="venue.hours.monday.from" ng-change="updatehours(venue)">
+            <label for="venue.hours.monday.to" class="control-label">to</label>
+            <input id="venue.hours.monday.to" type="time" ng-model="venue.hours.monday.to" ng-change="updatehours(venue)">
+        </div>
+        <div class="form-group">
+            <label for="venue.hours.tuesday.from" class="control-label">Tuesday</label>
+            <input id="venue.hours.tuesday.from" type="time" ng-model="venue.hours.tuesday.from" ng-change="updatehours(venue)">
+            <label for="venue.hours.tuesday.to" class="control-label">to</label>
+            <input id="venue.hours.tuesday.to" type="time" ng-model="venue.hours.tuesday.to" ng-change="updatehours(venue)">
+        </div>
+        <div class="form-group">
+            <label for="venue.hours.wednesday.from" class="control-label">Wednesday</label>
+            <input id="venue.hours.wednesday.from" type="time" ng-model="venue.hours.wednesday.from" ng-change="updatehours(venue)">
+            <label for="venue.hours.wednesday.to" class="control-label">to</label>
+            <input id="venue.hours.wednesday.to" type="time" ng-model="venue.hours.wednesday.to" ng-change="updatehours(venue)">
+        </div>
+        <div class="form-group">
+            <label for="venue.hours.thursday.from" class="control-label">Thursday</label>
+            <input id="venue.hours.thursday.from" type="time" ng-model="venue.hours.thursday.from" ng-change="updatehours(venue)">
+            <label for="venue.hours.thursday.to" class="control-label">to</label>
+            <input id="venue.hours.thursday.to" type="time" ng-model="venue.hours.thursday.to" ng-change="updatehours(venue)">
+        </div>
+        <div class="form-group">
+            <label for="venue.hours.friday.from" class="control-label">Friday</label>
+            <input id="venue.hours.friday.from" type="time" ng-model="venue.hours.friday.from" ng-change="updatehours(venue)">
+            <label for="venue.hours.friday.to" class="control-label">to</label>
+            <input id="venue.hours.friday.to" type="time" ng-model="venue.hours.friday.to" ng-change="updatehours(venue)">
+        </div>
+        <div class="form-group">
+            <label for="venue.hours.saturday.from" class="control-label">Saturday</label>
+            <input id="venue.hours.saturday.from" type="time" ng-model="venue.hours.saturday.from" ng-change="updatehours(venue)">
+            <label for="venue.hours.saturday.to" class="control-label">to</label>
+            <input id="venue.hours.saturday.to" type="time" ng-model="venue.hours.saturday.to" ng-change="updatehours(venue)">
+        </div>
+        <div class="form-group">
+            <label for="venue.hours.sunday.from" class="control-label">Sunday</label>
+            <input id="venue.hours.sunday.from" type="time" ng-model="venue.hours.sunday.from" ng-change="updatehours(venue)">
+            <label for="venue.hours.sunday.to" class="control-label">to</label>
+            <input id="venue.hours.sunday.to" type="time" ng-model="venue.hours.sunday.to" ng-change="updatehours(venue)">
+        </div>
         <!-- File upload -->
-        <div id="filedrag" class="well well-large">
+        <!-- <div id="filedrag" class="well well-large">
           <p>Drag and drop images</p>
         </div>
+        -->
         <button class="btn btn-primary" ng-click="create(venue)">Create Venue</button>
         <a class="btn btn-default" href="/#/venues"> Back</a>
     </form>
