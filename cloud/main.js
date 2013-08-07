@@ -21,7 +21,7 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 //--- Venue ---
 Parse.Cloud.beforeSave('Venue', function(request, response) {
     var mandatoryFields = ['name', 'address', 'phone', 'hours', 'address'];
-    var allowedFields = _(mandatoryFields).union(['pictures']);
+    var allowedFields = _(mandatoryFields).union(['twitter']);
     _(request.object.attributes).each(function(val, key) {
         if(!_(allowedFields).contains(key)) {
             request.object.unset(key);
@@ -61,6 +61,22 @@ Parse.Cloud.beforeSave('Venue', function(request, response) {
                     return;
                 }
             });
+        }
+    });
+});
+
+Parse.Cloud.define('fetchTwitterPic', function(request, response) {
+    if(_(request.params.twitter).isEmpty()) {
+        request.error('You must supply a twitter name');
+        return;
+    }
+    Parse.Cloud.httpRequest({
+        url: 'https://twitter.com/api/users/profile_image',
+        params: {
+            screen_name: request.params.twitter
+        },
+        error: function(res) {
+            response.success(res.headers.location);
         }
     });
 });

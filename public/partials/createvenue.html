@@ -7,6 +7,9 @@
     </div>
     <form ng-show="!success">
         <div class="form-group">
+            <img src="{{twitterPic}}" class="img-thumbnail">
+        </div>
+        <div class="form-group">
             <input ng-model="venue.name" class="form-control" type="text" placeholder="Name">
         </div>
         <div class="form-group">
@@ -23,6 +26,9 @@
         </div>
         <div class="form-group">
             <input ng-model="venue.zip" class="form-control" type="text" placeholder="Zipcode">
+        </div>
+        <div class="form-group">
+            <input ng-model="venue.twitter" class="form-control" type="text" placeholder="Twitter Name" ng-blur="fetchPic(venue.twitter)">
         </div>
         <div class="form-group">
             <label for="venue.hours.monday.from" class="control-label">Monday</label>

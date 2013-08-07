@@ -1,7 +1,5 @@
 (function($) {
 
-    
-
     // Login
     var loginCtrl = function($scope, $routeParams) {
         var currentUser = Hit.User.getCurrent();
@@ -139,6 +137,7 @@
         scope.user = currentUser;
         scope.failed = null;
         scope.success = false;
+        scope.twitterPic = 'http://a0.twimg.com/sticky/default_profile_images/default_profile_6_normal.png';
         var days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
         scope.create = function(venue) {
             scope.failed = null;
@@ -163,6 +162,14 @@
                 }
             });
         };
+        scope.fetchPic = function(twitterName) {
+            Parse.Cloud.run('fetchTwitterPic', {twitter: twitterName}, {
+                success: function(url) {
+                    scope.twitterPic = url || '';
+                    scope.$apply();
+                }
+            });
+        };
     }
 
     var app = angular.module('hit', ['$strap.directives']).
@@ -181,5 +188,15 @@
             startView: 2
         }
     });
+    app.directive('ngBlur', ['$parse', function($parse) {
+        return function(scope, element, attr) {
+            var fn = $parse(attr['ngBlur']);
+            element.bind('blur', function(event) {
+                scope.$apply(function() {
+                    fn(scope, {$event:event});
+                });
+            });
+        }
+    }]);
 
 })(jQuery);
