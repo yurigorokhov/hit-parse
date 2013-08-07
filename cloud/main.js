@@ -4,8 +4,6 @@
 
 var _ = require('underscore');
 var util = require('cloud/util.js');
-var Mailgun = require('mailgun');
-Mailgun.initialize('hit.mailgun.org', 'key-2p7zg4ed2q-bm43vtg8fnrbkl-uuxjn3');
 
 //--- User ---
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
@@ -20,8 +18,8 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 
 //--- Venue ---
 Parse.Cloud.beforeSave('Venue', function(request, response) {
-    var mandatoryFields = ['name', 'address', 'phone', 'hours', 'address'];
-    var allowedFields = _(mandatoryFields).union(['twitter']);
+    var mandatoryFields = ['name', 'address', 'phone', 'hours', 'address', 'twitter'];
+    var allowedFields = _(mandatoryFields);
     _(request.object.attributes).each(function(val, key) {
         if(!_(allowedFields).contains(key)) {
             request.object.unset(key);
@@ -29,54 +27,46 @@ Parse.Cloud.beforeSave('Venue', function(request, response) {
     });
 
     // Verify Fields
-    util.verifyFields(mandatoryFields, request.object, function(result) {
-        if(!result.success) {
-            response.error(result.message);
-            return;
-        }
+    var verify = util.verifyFields(mandatoryFields, request.object);
+    if(!verify.success) {
+        response.error(verify.message);
+        return;
+    }
 
-        // Add created by
-        if(!request.user) {
-            response.error('You are not logged in!');
-            return;
-        }
-        var address = request.object.get('address');
-        var location = request.object.get('location');
+    // Add created by
+    if(!request.user) {
+        response.error('You are not logged in!');
+        return;
+    }
+    var address = request.object.get('address');
+    var location = request.object.get('location');
+    var twitter = request.object.get('twitter');
 
-        // Fetch GPS location
-        //TODO: makes it impossible to change location
-        if(address && !location) {
-            util.getGpsLocationFromAddress(address, function(res) {
-                if(res.success) {        
-                    var acl = new Parse.ACL(request.user);
-                    acl.setPublicWriteAccess(false);
-                    acl.setPublicReadAccess(true);
-                    request.object.set('location', res.location);   
-                    request.object.setACL(acl);
-                    request.object.set('createdby', request.user);
-                    response.success();
-                    return;
-                } else {
-                    response.error(res.message);
-                    return;
-                }
-            });
-        }
+    // Fetch GPS location
+    var gpsLocation = util.getGpsLocationFromAddress(address);
+    var twitterPic = util.fetchTwitterPic(twitter, true);
+    Parse.Promise.when(gpsLocation, twitterPic).then(function(locationRes, pictureRes) {
+        var acl = new Parse.ACL(request.user);
+        acl.setPublicWriteAccess(false);
+        acl.setPublicReadAccess(true);
+        request.object.set('location', locationRes.location);   
+        request.object.setACL(acl);
+        request.object.set('createdby', request.user);
+        request.object.set('profilepic', pictureRes.url);
+    }, function(errors) {
+        var firstError = _(errors).find(function(err) {
+            return err != null;
+        });
+        response.error(firstError.message || 'There was an error creating the venue.');
+    }).then(function() {
+        response.success();
     });
 });
 
 Parse.Cloud.define('fetchTwitterPic', function(request, response) {
-    if(_(request.params.twitter).isEmpty()) {
-        request.error('You must supply a twitter name');
-        return;
-    }
-    Parse.Cloud.httpRequest({
-        url: 'https://twitter.com/api/users/profile_image',
-        params: {
-            screen_name: request.params.twitter
-        },
-        error: function(res) {
-            response.success(res.headers.location);
-        }
+    util.fetchTwitterPic(request.params.twitter, false).then(function(res) {
+        response.success(res.url);
+    }, function(error) {
+        response.error(error.message || 'There was an error fetching the profile picture');
     });
 });

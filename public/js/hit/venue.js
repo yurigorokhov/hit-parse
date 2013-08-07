@@ -12,6 +12,8 @@
         this.address = data.attributes.address;
         this.phone = data.attributes.phone;
         this.hours = data.attributes.hours;
+        this.twitter = data.attributes.twitter;
+        this.profilepic = data.attributes.profilepic;
     };
 
     _(Hit.Venue).extend({
@@ -26,6 +28,7 @@
             v.set("address", data.address);
             v.set("phone", data.phone);
             v.set("hours", data.hours);
+            v.set("twitter", data.twitter);
             var point = new Parse.GeoPoint(data.location);
             v.set("location", point);
             v.save(null, {
