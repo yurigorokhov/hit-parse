@@ -4,10 +4,14 @@
             "applicationId": "Gjy5f0o2limWmCwEZXBwYi3EUULEVfZWZo6OZ2GQ", 
             "masterKey": "qPjAZ9xgZPUw7RgC8bhTh6dJ67X04chFe8ohzXKC"
         }, 
+        "Hit-dev": {
+            "applicationId": "nZUilV8M1bvtzHt0YpNitafZBRSWvPwPOWAYY9kP", 
+            "masterKey": "M1B5ofRup1LIaIZ3xbe6QVy2u9vZbqy3VVgFsxR9"
+        }, 
         "_default": {
             "link": "Hit"
         }
-    },
+    }, 
     "global": {
         "parseVersion": "1.2.7"
     }
