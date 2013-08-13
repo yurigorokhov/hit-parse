@@ -11,7 +11,7 @@ ERR!     <http://bugs.debian.org/npm>
 ERR! or use
 ERR!     reportbug --attach /home/yurig/Workspace/Hit/hit-parse/public/npm-debug.log npm
 ERR! 
-ERR! System Linux 3.8.0-26-generic
+ERR! System Linux 3.8.0-27-generic
 ERR! command "/usr/bin/nodejs" "/usr/bin/npm" "completion"
 ERR! cwd /home/yurig/Workspace/Hit/hit-parse/public
 ERR! node -v v0.6.19

@@ -131,9 +131,17 @@
         if(!currentUser) {
             window.location.href = '/#/login';
         }
-
-        //TODO: check role
         var scope = $rootScope;
+        scope.edit = false;
+        var venueid = $routeParams.venueid;
+        if(venueid) {
+            Hit.Venue.getById(venueid).done(function(venue) {
+                scope.venue = venue;
+                scope.twitterPic = venue.profilepic;
+                scope.edit = true;
+                scope.$apply();
+            });
+        }
         scope.user = currentUser;
         scope.failed = null;
         scope.success = false;
@@ -142,12 +150,30 @@
         scope.create = function(venue) {
             scope.failed = null;
             scope.success = false;
-            Hit.Venue.create(venue).done(function() {
-                scope.success = true;
-                scope.$apply();
-            }).fail(function(error) {
-                scope.failed = error || 'There was an error creating the venue.'
-                scope.$apply();
+            if(venueid) {
+                venue.save().done(function() {
+                    scope.success = true;
+                    scope.$apply();
+                }).fail(function(error) {
+                    scope.failed = error || 'There was an error saving the venue.'
+                    scope.$apply();
+                });
+            } else {
+                Hit.Venue.create(venue).done(function() {
+                    scope.success = true;
+                    scope.$apply();
+                }).fail(function(error) {
+                    scope.failed = error || 'There was an error creating the venue.'
+                    scope.$apply();
+                });
+            }
+        };
+        scope.fetchPic = function(twitterName) {
+            Parse.Cloud.run('fetchTwitterPic', {twitter: twitterName}, {
+                success: function(url) {
+                    scope.twitterPic = url || '';
+                    scope.$apply();
+                }
             });
         };
         scope.updatehours = function(venue) {
@@ -162,14 +188,6 @@
                 }
             });
         };
-        scope.fetchPic = function(twitterName) {
-            Parse.Cloud.run('fetchTwitterPic', {twitter: twitterName}, {
-                success: function(url) {
-                    scope.twitterPic = url || '';
-                    scope.$apply();
-                }
-            });
-        };
     }
 
     var app = angular.module('hit', ['$strap.directives']).
@@ -181,6 +199,7 @@
             when('/venues', {templateUrl: 'partials/venues.html', controller: venueSearchCtrl}).
             when('/venues/create', {templateUrl: 'partials/createvenue.html', controller: venueCreateCtrl}).
             when('/venues/:venueid', {templateUrl: 'partials/viewvenue.html', controller: viewVenueCtrl}).
+            when('/venues/:venueid/edit', {templateUrl: 'partials/createvenue.html', controller: venueCreateCtrl}).
             otherwise({redirectTo: '/login'});
     }]);
     app.value('$strapConfig', {

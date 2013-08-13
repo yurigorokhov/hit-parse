@@ -126,6 +126,25 @@
 
     _(Hit.Venue.prototype).extend({
 
+        save: function() {
+            var def = $.Deferred();
+            var v = this._parseVenue;
+            v.set("name", this.name);
+            v.set("address", this.address);
+            v.set("phone", this.phone);
+            v.set("hours", this.hours);
+            v.set("twitter", this.twitter);
+            v.save(null, {
+                success: function(venue) {
+                    def.resolve(new Hit.Venue(venue));
+                },
+                error: function(venue, error) {
+                    def.reject(error.message);
+                }
+            });
+            return def.promise();
+        },
+
         addPictures: function(files) {
             var self = this;
             var def = $.Deferred();

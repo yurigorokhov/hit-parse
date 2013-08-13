@@ -10,9 +10,16 @@ Hit.provide = function(namespaceString) {
 };
 
 // Parse Init
-Hit.appId = 'Gjy5f0o2limWmCwEZXBwYi3EUULEVfZWZo6OZ2GQ';
-Hit.jsApiKey = 'eZ3hgT3pUwU9N31UVyqKsRDYAFRJJEQYUWKztnoq';
-Hit.restApiKey = 'Q74Rl1y2ufejKANALdMt7TSKzCiEBoKoqyp9ClRT';
+
+if(window.location.hostname === 'hit.parseapp.com') {
+    Hit.appId = 'Gjy5f0o2limWmCwEZXBwYi3EUULEVfZWZo6OZ2GQ';
+    Hit.jsApiKey = 'eZ3hgT3pUwU9N31UVyqKsRDYAFRJJEQYUWKztnoq';
+    Hit.restApiKey = 'Q74Rl1y2ufejKANALdMt7TSKzCiEBoKoqyp9ClRT';
+} else {
+    Hit.appId = 'nZUilV8M1bvtzHt0YpNitafZBRSWvPwPOWAYY9kP';
+    Hit.jsApiKey = 'qP1SfQXGjml2pHyxYwduuLE34s6AO4yMIxPoJ14q';
+    Hit.restApiKey = '4hFBwcRFnwHBvid7wTYlXIvAnxXIkXjHkC706Yr6';
+}
 Parse.initialize(Hit.appId, Hit.jsApiKey);
 
 // Underscore & underscore.string
