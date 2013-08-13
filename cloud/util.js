@@ -58,6 +58,12 @@ module.exports = {
             return promise;
         }
 
+        // strip '@'
+        if(twitterName.indexOf('@') === 0) {
+            twitterName = twitterName.substring(1);
+        }
+
+
         // Check if we already have the twitter picture cached
         var query = new Parse.Query("TwitterProfilePicture");
         query.equalTo('twittername', twitterName).find().then(function(results) {
