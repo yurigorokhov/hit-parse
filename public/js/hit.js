@@ -2,8 +2,7 @@
 
     // Login
     var loginCtrl = function($scope, $routeParams) {
-        var currentUser = Hit.User.getCurrent();
-        if(currentUser) {
+        if($scope.currentUser) {
             window.location.href = '/#/venues';
             return;
         }
@@ -23,8 +22,7 @@
 
     // Reset password
     var resetPasswordCtrl = function($scope, $routeParams) {
-        var currentUser = Hit.User.getCurrent();
-        if(currentUser) {
+        if($scope.currentUser) {
             window.location.href = '/#/venues';
             return;
         }
@@ -45,8 +43,7 @@
 
     // Register
     var registerCtrl = function($scope, $routeParams) {
-        var currentUser = Hit.User.getCurrent();
-        if(currentUser) {
+        if($scope.currentUser) {
             window.location.href = '/#/venues';
             return;
         }
@@ -67,11 +64,10 @@
     var venueSearchCtrl = function($rootScope, $routeParams) {
 
         // login check
-        if(!Hit.User.getCurrent()) {
+        var scope = $rootScope;
+        if(!scope.currentUser) {
             window.location.href = '/#/login';
         } 
-        var scope = $rootScope;
-        scope.user = Hit.User.getCurrent();
         scope.venues = [];
         scope.searching = false;
         scope.error = false;
@@ -108,11 +104,10 @@
     var viewVenueCtrl = function($rootScope, $routeParams) {
 
         // login check
-        if(!Hit.User.getCurrent()) {
+        var scope = $rootScope;
+        if(!scope.currentUser) {
             window.location.href = '/#/login';
         }
-        var scope = $rootScope;
-        scope.user = Hit.User.getCurrent();
         var venueid = $routeParams.venueid;
         scope.error = null;
         Hit.Venue.getById(venueid).done(function(venue) {
@@ -127,22 +122,18 @@
     var venueCreateCtrl = function($rootScope, $routeParams) {
 
         // login check
-        var currentUser = Hit.User.getCurrent();
-        if(!currentUser) {
+        var scope = $rootScope;
+        if(!scope.currentUser) {
             window.location.href = '/#/login';
         }
-        var scope = $rootScope;
-        scope.edit = false;
         var venueid = $routeParams.venueid;
         if(venueid) {
             Hit.Venue.getById(venueid).done(function(venue) {
                 scope.venue = venue;
                 scope.twitterPic = venue.profilepic;
-                scope.edit = true;
                 scope.$apply();
             });
         }
-        scope.user = currentUser;
         scope.failed = null;
         scope.success = false;
         scope.twitterPic = 'http://a0.twimg.com/sticky/default_profile_images/default_profile_6_normal.png';
@@ -151,17 +142,15 @@
             scope.failed = null;
             scope.success = false;
             if(venueid) {
-                venue.save().done(function() {
-                    scope.success = true;
-                    scope.$apply();
+                venue.save().done(function(v) {
+                    window.location.href = '/#/venues/' + v._parseVenue.id;
                 }).fail(function(error) {
                     scope.failed = error || 'There was an error saving the venue.'
                     scope.$apply();
                 });
             } else {
-                Hit.Venue.create(venue).done(function() {
-                    scope.success = true;
-                    scope.$apply();
+                Hit.Venue.create(venue).done(function(v) {
+                    window.location.href = '/#/venues/' + v._parseVenue.id;
                 }).fail(function(error) {
                     scope.failed = error || 'There was an error creating the venue.'
                     scope.$apply();
@@ -190,16 +179,28 @@
         };
     }
 
+    var wrap = function(ctrl) {
+        return function($scope, $routeParams) {
+            $scope.currentUser = Hit.User.getCurrent();
+            $scope.isAdmin = false;
+            $scope.currentUser.isAdmin().done(function(isAdmin) {
+                $scope.isAdmin = isAdmin;
+                $scope.$apply();
+            });
+            ctrl($scope, $routeParams);
+        };
+    };
+
     var app = angular.module('hit', ['$strap.directives']).
         config(['$routeProvider', function($routeProvider) {
             $routeProvider.
-            when('/login', {templateUrl: 'partials/login.html', controller: loginCtrl}).
-            when('/register', {templateUrl: 'partials/register.html', controller: registerCtrl}).
-            when('/resetpassword', {templateUrl: 'partials/resetpassword.html', controller: resetPasswordCtrl}).
-            when('/venues', {templateUrl: 'partials/venues.html', controller: venueSearchCtrl}).
-            when('/venues/create', {templateUrl: 'partials/createvenue.html', controller: venueCreateCtrl}).
-            when('/venues/:venueid', {templateUrl: 'partials/viewvenue.html', controller: viewVenueCtrl}).
-            when('/venues/:venueid/edit', {templateUrl: 'partials/createvenue.html', controller: venueCreateCtrl}).
+            when('/login', {templateUrl: 'partials/login.html', controller: wrap(loginCtrl)}).
+            when('/register', {templateUrl: 'partials/register.html', controller: wrap(registerCtrl)}).
+            when('/resetpassword', {templateUrl: 'partials/resetpassword.html', controller: wrap(resetPasswordCtrl)}).
+            when('/venues', {templateUrl: 'partials/venues.html', controller: wrap(venueSearchCtrl)}).
+            when('/venues/create', {templateUrl: 'partials/createvenue.html', controller: wrap(venueCreateCtrl)}).
+            when('/venues/:venueid', {templateUrl: 'partials/viewvenue.html', controller: wrap(viewVenueCtrl)}).
+            when('/venues/:venueid/edit', {templateUrl: 'partials/createvenue.html', controller: wrap(venueCreateCtrl)}).
             otherwise({redirectTo: '/login'});
     }]);
     app.value('$strapConfig', {

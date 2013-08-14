@@ -9,6 +9,7 @@
         this.email = userData.attributes.email;
         this.dob = userData.attributes.dob;
         this.gender = userData.attributes.gender;
+        this._isAdmin = null;
     }
 
     _(Hit.User).extend({
@@ -86,6 +87,43 @@
                     def.resolve(user, error);
                 }
             })
+            return def.promise();
+        },
+
+        isAdmin: function() {
+            var def = $.Deferred();
+            var self = this;
+            if(self._isAdmin !== null) {
+                def.resolve(self._isAdmin);
+            } else {
+                var queryRole = new Parse.Query(Parse.Role);
+                queryRole.equalTo('name', 'Admin');
+                queryRole.first({
+                    success: function(result) { // Role Object
+                        var role = result;
+                        var adminRelation = new Parse.Relation(role, 'users');
+                        var queryAdmins = adminRelation.query();
+                        queryAdmins.equalTo('objectId', Parse.User.current().id);
+                        queryAdmins.first({
+                            success: function(result) {
+                                if(result) {
+                                    self._isAdmin = true;
+                                    def.resolve(true);
+                                } else {
+                                    self._isAdmin = false;
+                                    def.resolve(false);
+                                }
+                            },
+                            error: function(error) {
+                                def.reject(error);
+                            }
+                        });
+                    },
+                    error: function(error) {
+                        def.reject(error);
+                    }
+                });
+            }
             return def.promise();
         }
     });

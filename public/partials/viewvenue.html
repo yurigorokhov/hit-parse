@@ -7,6 +7,8 @@
     <address>
         {{ venue.address.address }}<br>
         {{ venue.address.city }}, {{ venue.address.state }} {{ venue.address.zip }}<br>
-    <abbr title="Phone">Phone:</abbr> {{ venue.phone }}
+        <abbr title="Phone">Phone:</abbr> {{ venue.phone }}
     </address>
+    <div>Twitter ID: {{ venue.twitter }}</div>
+    <a href="/#/venues/{{ venue._parseVenue.id }}/edit" class="btn btn-primary">Edit</a>
 </div>

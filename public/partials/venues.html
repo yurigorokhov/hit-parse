@@ -20,10 +20,9 @@
     <ul id="venue-list">
         <li ng-repeat="venue in venues">
             <div class="well well-large">
-                <img src="{{venue.profilepic || 'http://a0.twimg.com/sticky/default_profile_images/default_profile_6_normal.png'}}" class="img-thumbnail">
+                <img ng-show="venue.profilepic" src="{{venue.profilepic}}" class="img-thumbnail">
                 <p class="venue-list-name">{{ venue.name }}</p>
                 <a href="/#/venues/{{ venue._parseVenue.id }}" class="btn btn-primary">View</a>
-                <a href="/#/venues/{{ venue._parseVenue.id }}/edit" class="btn btn-primary">Edit</a>
             </div>
         </li>
     </ul>

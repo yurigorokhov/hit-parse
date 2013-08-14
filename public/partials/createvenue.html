@@ -1,10 +1,8 @@
 <ng-include src="'partials/navbar.html'"></ng-include>
 <div class="container">
     <div class="hero-unit">
-        <h1>Create a Venue</h1>
+        <h1>Create/Edit Venue</h1>
         <div ng-show="failed != null" class="alert alert-danger">{{ failed }}</div>
-        <div ng-show="success && !scope.edit" class="alert alert-success">Your venue was created successfully.</div>
-        <div ng-show="success && scope.edit" class="alert alert-success">Your venue was saved successfully.</div>
     </div>
     <form ng-show="!success">
         <div class="form-group">

@@ -9,10 +9,10 @@
       <div class="nav-collapse collapse navbar-responsive-collapse">
         <ul class="nav pull-right">
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.displayname || user.username || 'Unknown User' }} <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ currentUser.displayname || currentUser.username || 'Unknown User' }} <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="#" ng-click="logout()">Log out</a></li>
-              <li><a href="/#/venues/create">Create a venue</a></li>
+              <li ng-show="isAdmin"><a href="/#/venues/create">Create a venue</a></li>
             </ul>
           </li>
 
