@@ -183,10 +183,12 @@
         return function($scope, $routeParams) {
             $scope.currentUser = Hit.User.getCurrent();
             $scope.isAdmin = false;
-            $scope.currentUser.isAdmin().done(function(isAdmin) {
-                $scope.isAdmin = isAdmin;
-                $scope.$apply();
-            });
+            if($scope.currentUser) {
+                $scope.currentUser.isAdmin().done(function(isAdmin) {
+                    $scope.isAdmin = isAdmin;
+                    $scope.$apply();
+                });
+            }
             ctrl($scope, $routeParams);
         };
     };

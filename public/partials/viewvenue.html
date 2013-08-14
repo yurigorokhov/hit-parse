@@ -10,5 +10,5 @@
         <abbr title="Phone">Phone:</abbr> {{ venue.phone }}
     </address>
     <div>Twitter ID: {{ venue.twitter }}</div>
-    <a href="/#/venues/{{ venue._parseVenue.id }}/edit" class="btn btn-primary">Edit</a>
+    <a ng-show="isAdmin" href="/#/venues/{{ venue._parseVenue.id }}/edit" class="btn btn-primary">Edit</a>
 </div>
