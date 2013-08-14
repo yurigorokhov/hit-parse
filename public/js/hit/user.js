@@ -13,6 +13,7 @@
     }
 
     _(Hit.User).extend({
+        _currentUser: null,
         signUp: function(userData) {
             var def = $.Deferred();
             var user = new Parse.User();
@@ -48,12 +49,17 @@
         },
 
         logOut: function() {
+            this._currentUser = null;
             Parse.User.logOut();
         },
 
         getCurrent: function() {
+            if(this._currentUser !== null) {
+                return this._currentUser;
+            }
             var u = Parse.User.current();
-            return u ? new Hit.User(u) : null;
+            this._currentUser = u ? new Hit.User(u) : null;
+            return this._currentUser;
         },
 
         requestPasswordReset: function(email) {
