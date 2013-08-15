@@ -109,7 +109,7 @@
                         var role = result;
                         var adminRelation = new Parse.Relation(role, 'users');
                         var queryAdmins = adminRelation.query();
-                        queryAdmins.equalTo('objectId', Parse.User.current().id);
+                        queryAdmins.equalTo('objectId', self._parseUser.id);
                         queryAdmins.first({
                             success: function(result) {
                                 if(result) {
