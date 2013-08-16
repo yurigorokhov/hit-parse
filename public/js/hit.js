@@ -43,7 +43,7 @@
 
     // Register
     var registerCtrl = function($scope, $location, $routeParams, user) {
-        initGlobalScope(scope, user);
+        initGlobalScope($scope, user);
         if($scope.currentUser) {
             $location.path('/venues');
         }
